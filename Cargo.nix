@@ -38,19 +38,7 @@ rec {
   # "public" attributes that we attempt to keep stable with new versions of crate2nix.
   #
 
-  rootCrate = rec {
-    packageId = "demo";
 
-    # Use this attribute to refer to the derivation building your root crate package.
-    # You can override the features with rootCrate.build.override { features = [ "default" "feature1" ... ]; }.
-    build = internal.buildRustCrateWithFeatures {
-      inherit packageId;
-    };
-
-    # Debug support which might change between releases.
-    # File a bug if you depend on any for non-debug work!
-    debug = internal.debugCrate { inherit packageId; };
-  };
   # Refer your crate build derivation by name here.
   # You can override the features with
   # workspaceMembers."${crateName}".build.override { features = [ "default" "feature1" ... ]; }.
@@ -59,6 +47,16 @@ rec {
       packageId = "demo";
       build = internal.buildRustCrateWithFeatures {
         packageId = "demo";
+      };
+
+      # Debug support which might change between releases.
+      # File a bug if you depend on any for non-debug work!
+      debug = internal.debugCrate { inherit packageId; };
+    };
+    "libserver" = rec {
+      packageId = "libserver";
+      build = internal.buildRustCrateWithFeatures {
+        packageId = "libserver";
       };
 
       # Debug support which might change between releases.
@@ -408,6 +406,14 @@ rec {
         ];
         src = lib.cleanSourceWith { filter = sourceFilter;  src = ./demo; };
         dependencies = [
+          {
+            name = "anyhow";
+            packageId = "anyhow";
+          }
+          {
+            name = "libserver";
+            packageId = "libserver";
+          }
           {
             name = "rocket";
             packageId = "rocket";
@@ -1614,6 +1620,26 @@ rec {
           "use_std" = [ "std" ];
         };
         resolvedDefaultFeatures = [ "default" "std" ];
+      };
+      "libserver" = rec {
+        crateName = "libserver";
+        version = "0.1.0";
+        edition = "2024";
+        crateBin = [
+          {
+            name = "libserver";
+            path = "src/main.rs";
+            requiredFeatures = [ ];
+          }
+        ];
+        src = lib.cleanSourceWith { filter = sourceFilter;  src = ./libserver; };
+        dependencies = [
+          {
+            name = "rocket";
+            packageId = "rocket";
+          }
+        ];
+
       };
       "linux-raw-sys" = rec {
         crateName = "linux-raw-sys";

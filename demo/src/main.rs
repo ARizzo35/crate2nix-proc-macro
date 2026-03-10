@@ -1,13 +1,8 @@
-use rocket::get;
-use rocket::launch;
-use rocket::routes;
+use anyhow::Result;
 
-#[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
-}
+#[rocket::main]
+async fn main() -> Result<()> {
+    let _ = libserver::rocket().launch().await?;
 
-#[launch]
-fn rocket() -> _ {
-    rocket::build().mount("/", routes![index])
+    Ok(())
 }

@@ -1,6 +1,8 @@
 [workspace]
 resolver = "2"
-members = ["demo"]
+members = ["demo", "libserver"]
 
 [workspace.dependencies]
+anyhow = "1.0.102"
+libserver = { path = "libserver" }
 rocket = "0.5.1"

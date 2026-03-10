@@ -120,6 +120,8 @@ dependencies = [
 name = "demo"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
+ "libserver",
  "rocket",
 ]
 
@@ -513,6 +515,13 @@ name = "libc"
 version = "0.2.183"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b5b646652bf6661599e1da8901b3b9522896f01e736bad5f723fe7a3a27f899d"
+
+[[package]]
+name = "libserver"
+version = "0.1.0"
+dependencies = [
+ "rocket",
+]
 
 [[package]]
 name = "linux-raw-sys"
