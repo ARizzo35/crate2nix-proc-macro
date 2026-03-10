@@ -1,0 +1,6 @@
+[workspace]
+resolver = "2"
+members = ["demo"]
+
+[workspace.dependencies]
+rocket = "0.5.1"
